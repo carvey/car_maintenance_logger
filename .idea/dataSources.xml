@@ -4,7 +4,7 @@
     <data-source source="LOCAL" name="Django default" uuid="6398f265-716c-4ec9-89c1-c3c078fa9e8b">
       <driver-ref>mysql</driver-ref>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://127.0.0.1:3306/car_logger</jdbc-url>
+      <jdbc-url>jdbc:mysql://127.0.0.1:3306/car_logger_project</jdbc-url>
       <user-name>root</user-name>
       <libraries />
     </data-source>

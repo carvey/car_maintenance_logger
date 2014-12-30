@@ -53,9 +53,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'car_logger.urls'
+ROOT_URLCONF = 'car_logger_project.urls'
 
-WSGI_APPLICATION = 'car_logger.wsgi.application'
+WSGI_APPLICATION = 'car_logger_project.wsgi.application'
 
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
