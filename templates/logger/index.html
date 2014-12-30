@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+
+      <!-- Example row of columns -->
+      <div class="row">
+
+
+        <div class="col-md-8">
+            {% for entry in entries %}
+              <h2>{{ entry }}</h2>
+              <p>Date: {{ entry.date|date:"d (D) M Y" }}</p>
+              <p>Car: {{ entry.car }}</p>
+              <p>Service Type: {{ entry.service_type }}</p>
+              <p>Service Location: {{ entry.service_location }}</p>
+              <p>Total Cost: {{ entry.get_total_cost }}</p>
+              <p><a class="btn btn-default" href="/entries/{{ entry.id }}" role="button">View details &raquo;</a></p>
+            {% endfor %}
+        </div>
+
+
+        <div class="col-md-4">
+          {% for car in cars %}
+            <h2>{{ car }}</h2>
+            <p>Date Purchased: {{ car.date_purchased }}</p>
+            <p>Initial Cost: {{ car.initial_cost }}</p>
+            <p>Mileage: {{ car.mileage }}</p>
+            <p>Total Car Maintenance Cost: {{ car.get_total_maintenance_cost }}</p>
+            <p><a class="btn btn-default" href="/cars/{{ car.id }}" role="button">View details &raquo;</a></p>
+          {% endfor %}
+       </div>
+
+      </div>
+{% endblock %}

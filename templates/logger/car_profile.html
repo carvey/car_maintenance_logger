@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <style>
+
+        #car_title {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        #car_description p {
+            font-size: 18px;
+            padding: 10px;
+        }
+
+        #entry_container {
+            position: relative;
+            left: 50px;
+        }
+
+        .entry_detail_container {
+            position: relative;
+            left: 50px;
+        }
+
+    </style>
+
+    <div align="center"><h1 id="car_title">{{ car }}</h1></div>
+    <div class="row">
+
+        <div class="col-md-8">
+            <h2>Entries</h2>
+            <div id="entry_container">
+                {% for entry in entries %}
+                  <h3>{{ entry }}</h3>
+                  <div class="entry_detail_container">
+                      <p>Date: {{ entry.date|date:"d (D) M Y" }}</p>
+                      <p>Car: {{ entry.car }}</p>
+                      <p>Service Type: {{ entry.service_type }}</p>
+                      <p>Service Location: {{ entry.service_location }}</p>
+                      <p>Total Cost: {{ entry.get_total_cost }}</p>
+                      <p><a class="btn btn-default" href="/entries/{{ entry.id }}" role="button">View details &raquo;</a></p>
+                  </div>
+
+                {% endfor %}
+            </div>
+        </div>
+
+        <div id="car_description" class="col-md-4">
+            <h2>Details</h2>
+
+                <p>Date Purchased: {{ car.date_purchased }}</p>
+                <p>Initial Mileage: {{ car.initial_mileage }}</p>
+                <p>Current Mileage (as last reported): {{ car.mileage }}</p>
+                <p>Initial Cost: {{ car.initial_cost }}</p>
+                <p>Total Cost: {{ car.get_total_car_cost }}</p>
+                <p>Total Parts Cost: {{ car.get_total_parts_cost }}</p>
+                <p>Total Service Cost: {{ car.get_total_service_cost }}</p>
+
+        </div>
+    </div>
+
+
+
+
+
+
+{% endblock %}

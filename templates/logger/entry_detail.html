@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <style>
+
+        #entry_title {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        #entry_detail p {
+            font-size: 18px;
+            padding: 10px;
+        }
+
+        #entry_container {
+            position: relative;
+            left: 50px;
+        }
+
+        .entry_detail_container {
+            position: relative;
+            left: 50px;
+        }
+    </style>
+
+    <div class="row">
+        <div class="col-md-12" id="entry_detail">
+            <h1 align="center" id="entry_title">{{ entry }}</h1>
+            <p>Date: {{ entry.date|date:"d (D) M Y" }}</p>
+            <p>Car: {{ entry.car }}</p>
+            <p>Mileage: {{ entry.mileage }}</p>
+            <p>Service Type: {{ entry.service_type }}</p>
+            <p>Service Location: {{ entry.service_location }}</p>
+            <p>Contact Name: {{ entry.contact_name }}</p>
+            <p>Contact Number: {{ entry.contact_number }}</p>
+            <p>Cost of parts: ${{ entry.cost_of_parts }}</p>
+            <p>Cost of Service: ${{ entry.cost_of_service }}</p>
+            <p>Total Cost: ${{ entry.get_total_cost }}</p>
+            <p><a class="btn btn-default" href="/cars/{{ entry.car.id }}" role="button">View Car Details &raquo;</a></p>
+        </div>
+    </div>
+
+
+{% endblock %}
