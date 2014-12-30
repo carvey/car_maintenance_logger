@@ -12,7 +12,7 @@ class Index(View):
 
         context = {
             'cars': cars,
-            'entries': entries
+            'entries': reversed(entries)
         }
         return render(request, self.template, context)
 
@@ -25,7 +25,7 @@ class CarProfile(View):
 
         context = {
             'car': car,
-            'entries': entries
+            'entries': reversed(entries)
         }
 
         return render(request, self.template, context)
@@ -38,7 +38,7 @@ class EntryDetial(View):
         entry = Entry.objects.get(id=entry_id)
 
         context = {
-            'entry': entry
+            'entry': reversed(entry)
         }
 
         return render(request, self.template, context)
