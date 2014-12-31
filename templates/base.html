@@ -43,6 +43,12 @@
 {#            </div>#}
 {#            <button type="submit" class="btn btn-success">Sign in</button>#}
 {#          </form>#}
+            <ul class="nav navbar-nav navbar-right">
+              {% if user.is_authenticated %}
+                <li><a href="#about">Left</a></li>
+                <li><a href="/logout">Logout</a></li>
+              {% endif %}
+            </ul>
         </div><!--/.navbar-collapse -->
       </div>
     </nav>

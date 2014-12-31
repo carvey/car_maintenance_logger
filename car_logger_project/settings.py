@@ -65,6 +65,7 @@ TEMPLATE_DIRS = (
     TEMPLATE_PATH,
 )
 
+LOGIN_URL = '/login/'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
