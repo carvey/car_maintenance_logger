@@ -45,7 +45,9 @@
 {#          </form>#}
             <ul class="nav navbar-nav navbar-right">
               {% if user.is_authenticated %}
-                <li><a href="#about">Left</a></li>
+                {% if user.is_staff %}
+                    <li><a href="/admin">Admin</a></li>
+                {% endif %}
                 <li><a href="/logout">Logout</a></li>
               {% endif %}
             </ul>

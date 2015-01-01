@@ -1,7 +1,10 @@
 from django.db import models
 from django.utils.dateformat import DateFormat
+from django.contrib.auth.models import User
+
 
 class Car(models.Model):
+    user = models.ForeignKey(User)
     label = models.CharField(max_length=250)
     date_purchased = models.DateField()
     initial_cost = models.PositiveIntegerField(default=0)
@@ -54,7 +57,9 @@ class Car(models.Model):
             total += self.initial_cost
         return total
 
+
 class Entry(models.Model):
+    user = models.ForeignKey(User)
     date = models.DateTimeField()
     car = models.ForeignKey('Car', related_name='car')
     mileage = models.PositiveIntegerField()

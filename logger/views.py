@@ -4,32 +4,47 @@ from logger.models import Car, Entry
 from django.utils.decorators import method_decorator
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic.edit import FormView
 from django.contrib.auth.views import logout_then_login
+from django.contrib.auth.models import User
+from logger.forms import LoginForm, RegistrationForm
+
 
 class Login(FormView):
     template_name = 'login.html'
-    form_class = AuthenticationForm
+    form_class = LoginForm
     success_url = '/'
+
+    def get(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        return self.render_to_response(self.get_context_data(form=form, next=self.request.GET.get('next')))
 
     def form_valid(self, form):
         user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+        if not user:
+            return HttpResponseRedirect('/login')
         login(self.request, user)
-        if self.request.GET.get('next'):
-            return HttpResponseRedirect(self.request.GET.get('next'))
+        if self.request.POST.get('next'):
+            return HttpResponseRedirect(self.request.POST.get('next'))
         else:
             return super(Login, self).form_valid(form)
 
 
-    # def get(self, request):
-    #     form = AuthenticationForm()
-    #     print request.GET.get('next')
-    #     context = {
-    #     'auth_form': form,
-    #     'next': request.GET.get('next')
-    #     }
-    #     return render(request, self.template, context)
+class Register(FormView):
+    template_name = 'register.html'
+    form_class = RegistrationForm
+    success_url = '/login'
+
+    def form_valid(self, form):
+        username = form.cleaned_data['username']
+        email = form.cleaned_data['email']
+        password = form.cleaned_data['password']
+
+        user = User.objects.create_user(username, email, password)
+        user.save()
+        return super(Register, self).form_valid(form)
+
 
 def logout(request):
     return logout_then_login(request, login_url='/login')
