@@ -8,6 +8,7 @@ from django.views.generic.edit import FormView
 from django.contrib.auth.views import logout_then_login
 from django.contrib.auth.models import User
 from logger.forms import LoginForm, RegistrationForm
+from django.template import RequestContext
 
 
 class Login(FormView):
@@ -25,7 +26,7 @@ class Login(FormView):
         if not user:
             return HttpResponseRedirect('/login')
         login(self.request, user)
-        if self.request.POST.get('next'):
+        if self.request.POST.get('next') != 'None':
             return HttpResponseRedirect(self.request.POST.get('next'))
         else:
             return super(Login, self).form_valid(form)
@@ -54,9 +55,9 @@ class Index(View):
 
     @method_decorator(login_required())
     def get(self, request):
-
-        cars = Car.objects.all()
-        entries = Entry.objects.all()
+        user = request.user
+        cars = Car.objects.filter(user=user)
+        entries = Entry.objects.filter(user=user)
 
         context = {
             'cars': cars,
@@ -70,8 +71,9 @@ class CarProfile(View):
 
     @method_decorator(login_required())
     def get(self, request, car_id):
-        car = Car.objects.get(id=car_id)
-        entries = Entry.objects.filter(car=car)
+        user = request.user
+        car = Car.objects.get(user=user, id=car_id)
+        entries = Entry.objects.filter(user=user, car=car)
 
         context = {
             'car': car,
@@ -86,7 +88,8 @@ class EntryDetial(View):
 
     @method_decorator(login_required())
     def get(self, request, entry_id):
-        entry = Entry.objects.get(id=entry_id)
+        user = request.user
+        entry = Entry.objects.get(user=user, id=entry_id)
 
         context = {
             'entry': entry
