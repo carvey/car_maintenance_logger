@@ -2,84 +2,52 @@
 {% load logger_filters %}
 
 {% block content %}
+
     <style>
-        #title {
-            font-size: 25px;
-            font-weight: lighter;
-            padding-top: 15px;
+        .forms {
+            padding: 10px 0px;
         }
 
-        .center-y {
-
-            vertical-align: middle;
-            float: none;
+        .panel-title {
+            font-weight: bold;
         }
-
-
-
     </style>
 
-{#    <div class="row fluid">#}
-{#        <div class="col-lg-12  center-y">#}
-{#            <div class="panel panel-default text-center">#}
-{#              <div class="panel-heading">#}
-{#                <h3 class="panel-title" id="title">Login</h3>#}
-{#              </div>#}
-{#              <div class="panel-body">#}
-{#                {% for form in auth_form %}#}
-{#                    <div>#}
-{#                        {{ form.label_tag }} {{ form }}#}
-{#                    </div>#}
-{#                {% endfor %}#}
-{#                #}
-{#              </div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
+    <div class="col-md-12">
+        <div class="modal-dialog" style="margin-bottom:0">
+            <div class="modal-content">
+                <div class="panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Sign In</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form action="{% url 'login' %}" method="post">
+                            {{ form.non_field_errors }}
+                            {% csrf_token %}
+                            {% for f in form %}
+                                <div class="forms">
+                                    {{ f }}
+                                </div>
+                            {% endfor %}
 
-<style>
-    .forms {
-        padding: 10px 0px;
-    }
-    .panel-title {
-        font-weight: bold;
-    }
-</style>
-
-<div class="col-md-12">
-    <div class="modal-dialog" style="margin-bottom:0">
-        <div class="modal-content">
-        <div class="panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Sign In</h3>
-            </div>
-            <div class="panel-body">
-                <form action="{% url 'login' %}" method="post">
-                    {{ form.non_field_errors }}
-                    {% csrf_token %}
-                    {% for f in form %}
-                        <div class="forms">
-                            {{ f }}
-                        </div>
-                    {% endfor %}
-
-                    <span style="float: left">
-                        <input class="btn btn-sm btn-success" type="submit" value="Submit" />
-                        <input type="hidden" name="next" value="{{ next }}" />
+                            <span style="float: left">
+                        <input class="btn btn-sm btn-success" type="submit" value="Submit"/>
+                        <input type="hidden" name="next" value="{{ next }}"/>
                     </span>
                     <span style="float: left; padding-left: 10px">
                         <form method="LINK" action="/register">
-                            <input type="button" class="btn btn-sm btn-success" value="Register" onclick="window.location.href='/register'">
+                            <input type="button" class="btn btn-sm btn-success" value="Register"
+                                   onclick="window.location.href='/register'">
                         </form>
                     </span>
-                </form>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    </div>
-</div>
 
-<br>
+    <br>
 
 
 {% endblock %}

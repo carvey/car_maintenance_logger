@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block extra_js %}
+    {{ form.media }}
+{% endblock %}
+
+{% block content %}
+
+    <style>
+    .form_fields {
+        padding: 10px 0;
+
+    }
+    </style>
+    <div class="row">
+
+        <div class="col-md-12">
+        <div class="modal-dialog" style="margin-bottom:0">
+            <div class="modal-content">
+                <div class="panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Add an entry for: {{ car }}</h3>
+                </div>
+
+                <div class="panel-body">
+                    <form action="/entries/add/{{ car.id }}/" method="post">
+                        {{ form.non_field_errors }}
+                        {% csrf_token %}
+                        <div class="form_fields">
+                            {{ form.as_p }}
+                        </div>
+                        <input class="btn btn-sm btn-success" type="submit" value="Submit" />
+                    </form>
+                </div>
+            </div>
+            </div>
+        </div>
+
+
+        </div>
+
+    </div>
+
+{% endblock %}

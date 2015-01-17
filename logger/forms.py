@@ -68,3 +68,21 @@ class RegistrationForm(forms.ModelForm):
             'username': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'})
         }
+
+
+class AddCarForm(forms.Form):
+    label = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Car Name/Label'}))
+    date_purchased = forms.CharField(widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'YYYY-MM-DD'}))
+    initial_cost = forms.CharField(widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Initial Cost'}))
+    initial_mileage = forms.CharField(widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Initial Mileage'}))
+
+class AddEntryForm(forms.Form):
+    date = forms.CharField(widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'YYYY-MM-DD'}))
+    mileage = forms.CharField(widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Mileage at time of service'}))
+    service_type = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Service Type'}))
+    service_location = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Service Location'}))
+    contact_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Last'}))
+    contact_number = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '555-555-5555'}))
+    cost_of_parts = forms.CharField(widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '20'}))
+    cost_of_service = forms.CharField(widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '20'}))
+    comments = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Comments'}))

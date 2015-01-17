@@ -7,8 +7,9 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import FormView
 from django.contrib.auth.views import logout_then_login
 from django.contrib.auth.models import User
-from logger.forms import LoginForm, RegistrationForm
+from logger.forms import LoginForm, RegistrationForm, AddCarForm, AddEntryForm
 from django.template import RequestContext
+from django.core.urlresolvers import reverse
 
 
 class Login(FormView):
@@ -83,6 +84,30 @@ class CarProfile(View):
         return render(request, self.template, context)
 
 
+def add_car(request):
+    template = "logger/add_car.html"
+    if request.method == "GET":
+        form = AddCarForm()
+    elif request.method == "POST":
+        form = AddCarForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            label = form.cleaned_data['label']
+            date_purchased = form.cleaned_data['date_purchased']
+            initial_cost = form.cleaned_data['initial_cost']
+            initial_mileage = form.cleaned_data['initial_mileage']
+
+            car = Car(user=user, label=label,
+                      date_purchased=date_purchased, initial_cost=initial_cost,
+                      initial_mileage=initial_mileage)
+            car.save()
+            return HttpResponseRedirect(reverse("car_profile", args=[car.id]))
+    context = {
+        "form": form
+    }
+    return render(request, template, context)
+
+
 class EntryDetial(View):
     template = 'logger/entry_detail.html'
 
@@ -96,3 +121,38 @@ class EntryDetial(View):
         }
 
         return render(request, self.template, context)
+
+
+def add_entry(request, car_id):
+    template = "logger/add_entry.html"
+
+    user = request.user
+    car = Car.objects.get(id=car_id, user=user)
+    print car
+    if request.method == "GET":
+        form = AddEntryForm()
+    elif request.method == "POST":
+        form = AddEntryForm(request.POST)
+        if form.is_valid():
+            date = form.cleaned_data['date']
+            mileage = form.cleaned_data['mileage']
+            service_type = form.cleaned_data['service_type']
+            service_location = form.cleaned_data['service_location']
+            contact_name = form.cleaned_data['contact_name']
+            contact_number = form.cleaned_data['contact_number']
+            cost_of_parts = form.cleaned_data['cost_of_parts']
+            cost_of_service = form.cleaned_data['cost_of_service']
+            comments = form.cleaned_data['comments']
+
+            entry = Entry(user=user, car=car, date=date, mileage=mileage, service_type=service_type,
+                          service_location=service_location, contact_name=contact_name, contact_number=contact_number,
+                          cost_of_parts=cost_of_parts, cost_of_service=cost_of_service, comments=comments)
+
+            entry.save()
+
+            return HttpResponseRedirect(reverse("car_profile", args=[car.id]))
+    context = {
+        "form": form,
+        "car": car,
+    }
+    return render(request, template, context)
