@@ -73,11 +73,23 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'car_logger',
-        'USER': 'root',
-        'HOST': 'localhost',
+        'USER': 'charles',
+        'PASSWORD': 'shorefish',
+        'HOST': 'savoysterhouse.cnkdqqk3dlt2.us-west-2.rds.amazonaws.com',
         'PORT': '3306',
     }
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'car_logger',
+#         'USER': 'root',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#     }
+# }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
