@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block extra_js %}
     {{ form.media }}
+
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}">
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+
 {% endblock %}
 
 {% block content %}
@@ -19,7 +24,7 @@
             <div class="modal-content">
                 <div class="panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Add an entry for: {{ car }}</h3>
+                    <h3 class="panel-title">Add/Edit an entry for: {{ car }}</h3>
                 </div>
 
                 <div class="panel-body">
@@ -40,5 +45,17 @@
         </div>
 
     </div>
+
+    <script>
+        $(document).ready(function() {
+            $("input,select,textarea").addClass("form-control");
+            $(":checkbox").addClass("checkbox");
+
+            $("#id_date").addClass("date");
+            $(".date").datepicker({
+                format: 'yyyy-mm-dd'
+            });
+        });
+    </script>
 
 {% endblock %}

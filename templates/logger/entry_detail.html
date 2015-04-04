@@ -38,6 +38,8 @@
             <p>Cost of parts: ${{ entry.cost_of_parts }}</p>
             <p>Cost of Service: ${{ entry.cost_of_service }}</p>
             <p>Total Cost: ${{ entry.get_total_cost }}</p>
+            <p><input type="button" class="btn btn-sm btn-success" value="Edit Entry"
+                                   onclick="window.location.href='{% url 'edit_entry' entry.id %}'"></p>
             <p><a class="btn btn-default" href="/cars/{{ entry.car.id }}" role="button">View Car Details &raquo;</a></p>
         </div>
     </div>

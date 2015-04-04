@@ -64,6 +64,8 @@
                 <p>Total Cost: {{ car.get_total_car_cost }}</p>
                 <p>Total Parts Cost: {{ car.get_total_parts_cost }}</p>
                 <p>Total Service Cost: {{ car.get_total_service_cost }}</p>
+                <p><input type="button" class="btn btn-sm btn-success" value="Edit Car"
+                                   onclick="window.location.href='{% url 'edit_car' car.id %}'"></p>
 
         </div>
     </div>

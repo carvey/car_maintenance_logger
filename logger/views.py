@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import FormView
 from django.contrib.auth.views import logout_then_login
 from django.contrib.auth.models import User
-from logger.forms import LoginForm, RegistrationForm, AddCarForm, AddEntryForm
+from logger.forms import LoginForm, RegistrationForm, AddCarForm, AddEntryForm, EditCarForm, EditEntryForm
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 
@@ -123,12 +123,58 @@ class EntryDetial(View):
         return render(request, self.template, context)
 
 
+def edit_entry(request, entry_id):
+    entry = Entry.objects.get(id=entry_id)
+    car = entry.car
+
+    if request.method == "GET":
+        form = EditEntryForm(instance=entry)
+        if form.is_valid():
+            form.save()
+    else:
+        form = EditEntryForm(request.POST, instance=entry)
+        if form.is_valid():
+            form.save()
+
+        return HttpResponseRedirect('/cars/%s/' % car.id)
+
+    context = {
+        'entry': entry,
+        'edit': True,
+        'form': form
+    }
+
+    return render(request, 'logger/add_entry.html', context)
+
+
+def edit_car(request, car_id):
+    car = Car.objects.get(id=car_id)
+
+    if request.method == "GET":
+        form = EditCarForm(instance=car)
+        if form.is_valid():
+            form.save()
+    else:
+        form = EditCarForm(request.POST, instance=car)
+        if form.is_valid():
+            form.save()
+
+            return HttpResponseRedirect('/cars/%s' % car.id)
+
+    context = {
+        'car': car,
+        'edit': True,
+        'form': form
+    }
+
+    return render(request, 'logger/add_car.html', context)
+
+
 def add_entry(request, car_id):
     template = "logger/add_entry.html"
 
     user = request.user
     car = Car.objects.get(id=car_id, user=user)
-    print car
     if request.method == "GET":
         form = AddEntryForm()
     elif request.method == "POST":
@@ -149,6 +195,9 @@ def add_entry(request, car_id):
                           cost_of_parts=cost_of_parts, cost_of_service=cost_of_service, comments=comments)
 
             entry.save()
+
+            car.mileage = mileage
+            car.save()
 
             return HttpResponseRedirect(reverse("car_profile", args=[car.id]))
     context = {

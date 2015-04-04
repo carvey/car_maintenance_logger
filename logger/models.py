@@ -65,10 +65,10 @@ class Entry(models.Model):
     mileage = models.PositiveIntegerField()
     service_type = models.CharField(max_length=250)
     service_location = models.CharField(max_length=250)
-    contact_name = models.CharField(max_length=250, blank=True)
-    contact_number = models.CharField(max_length=15, blank=True)
-    cost_of_parts = models.IntegerField()
-    cost_of_service = models.IntegerField()
+    contact_name = models.CharField(max_length=250, blank=True, default='')
+    contact_number = models.CharField(max_length=15, blank=True, default='')
+    cost_of_parts = models.IntegerField(blank=True, default=0)
+    cost_of_service = models.IntegerField(blank=True, default=0)
     comments = models.TextField(blank=True)
 
     def __unicode__(self):

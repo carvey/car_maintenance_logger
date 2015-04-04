@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block extra_js %}
     {{ form.media }}
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}">
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -19,11 +22,15 @@
             <div class="modal-content">
                 <div class="panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Add a Car</h3>
+                    <h3 class="panel-title">Add/Edit a Car</h3>
                 </div>
 
                 <div class="panel-body">
-                    <form action="{% url 'add_car' %}" method="post">
+                    {% if not edit %}
+                        <form action="{% url 'add_car' %}" method="post">
+                    {% else %}
+                        <form action="{% url 'edit_car' car.id %}" method="post">
+                    {% endif %}
                         {{ form.non_field_errors }}
                         {% csrf_token %}
                         <div class="form_fields">
@@ -40,5 +47,18 @@
         </div>
 
     </div>
+
+
+    <script>
+        $(document).ready(function() {
+            $("input").addClass("form-control");
+            $(":checkbox").addClass("checkbox");
+
+            $("#id_date").addClass("date");
+            $("#id_date_purchased").datepicker({
+                format: 'yyyy-mm-dd'
+            });
+        });
+    </script>
 
 {% endblock %}

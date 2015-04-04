@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.conf import settings
-from logger.views import Login, Register, logout, Index, CarProfile, EntryDetial, add_car, add_entry
+from logger.views import Login, Register, logout, Index, CarProfile, EntryDetial, add_car, add_entry, \
+    edit_car, edit_entry
 
 from django.contrib import admin
 admin.autodiscover()
@@ -16,6 +17,9 @@ urlpatterns = patterns('',
     url(r'^cars/add/$', add_car, name='add_car'),
     url(r'^entries/(?P<entry_id>\d+)/$', EntryDetial.as_view()),
     url(r'^entries/add/(?P<car_id>\d+)/$', add_entry, name='add_entry'),
+
+    url(r'^cars/edit/(?P<car_id>\d+)/$', edit_car, name='edit_car'),
+    url(r'^entries/edit/(?P<entry_id>\d+)/$', edit_entry, name='edit_entry'),
     )
 
 if settings.DEBUG:
