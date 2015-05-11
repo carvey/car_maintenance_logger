@@ -62,19 +62,26 @@ class Entry(models.Model):
     user = models.ForeignKey(User)
     date = models.DateTimeField()
     car = models.ForeignKey('Car', related_name='car')
-    mileage = models.PositiveIntegerField()
-    service_type = models.CharField(max_length=250)
-    service_location = models.CharField(max_length=250)
-    contact_name = models.CharField(max_length=250, blank=True, default='')
+    mileage = models.PositiveIntegerField(blank=True, null=True, default=0)
+    service_type = models.CharField(max_length=250, blank=True, null=True, default="")
+    service_location = models.CharField(max_length=250, blank=True, null=True, default="")
+    contact_name = models.CharField(max_length=250, blank=True, null=True, default='')
     contact_number = models.CharField(max_length=15, blank=True, default='')
-    cost_of_parts = models.IntegerField(blank=True, default=0)
-    cost_of_service = models.IntegerField(blank=True, default=0)
-    comments = models.TextField(blank=True)
+    cost_of_parts = models.IntegerField(blank=True, null=True, default=0)
+    cost_of_service = models.IntegerField(blank=True, null=True, default=0)
+    comments = models.TextField(blank=True, null=True, default="")
 
     def __unicode__(self):
         df = DateFormat(self.date)
 
-        return str(df.format("d M y")) + "- " + str(self.car) + ": " + self.service_type
+        label = self.service_type or ""
+        return str(df.format("d M y")) + "- " + str(self.car) + ": " + label
+
+    def __repr__(self):
+        df = DateFormat(self.date)
+
+        label = self.service_type or ""
+        return str(df.format("d M y")) + "- " + str(self.car) + ": " + label
 
     def get_total_cost(self):
         return self.cost_of_parts + self.cost_of_service

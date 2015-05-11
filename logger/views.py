@@ -66,23 +66,36 @@ class Index(View):
         }
         return render(request, self.template, context)
 
+#
+# class CarProfile(View):
+#     template = 'logger/car_profile.html'
+#
+#     @method_decorator(login_required())
+#     def get(self, request, car_id):
+#         user = request.user
+#         car = Car.objects.get(user=user, id=car_id)
+#         entries = Entry.objects.filter(user=user, car=car)
+#
+#         context = {
+#             'car': car,
+#             'entries': reversed(entries)
+#         }
+#
+#         return render(request, self.template, context)
 
-class CarProfile(View):
+@login_required()
+def car_profile(request, car_id):
     template = 'logger/car_profile.html'
+    user = request.user
+    car = Car.objects.get(user=user, id=car_id)
+    entries = Entry.objects.filter(user=user, car=car)
 
-    @method_decorator(login_required())
-    def get(self, request, car_id):
-        user = request.user
-        car = Car.objects.get(user=user, id=car_id)
-        entries = Entry.objects.filter(user=user, car=car)
+    context = {
+        'car': car,
+        'entries': reversed(entries)
+    }
 
-        context = {
-            'car': car,
-            'entries': reversed(entries)
-        }
-
-        return render(request, self.template, context)
-
+    return render(request, template, context)
 
 def add_car(request):
     template = "logger/add_car.html"
@@ -181,13 +194,13 @@ def add_entry(request, car_id):
         form = AddEntryForm(request.POST)
         if form.is_valid():
             date = form.cleaned_data['date']
-            mileage = form.cleaned_data['mileage']
+            mileage = form.cleaned_data['mileage'] or 0
             service_type = form.cleaned_data['service_type']
             service_location = form.cleaned_data['service_location']
             contact_name = form.cleaned_data['contact_name']
             contact_number = form.cleaned_data['contact_number']
-            cost_of_parts = form.cleaned_data['cost_of_parts']
-            cost_of_service = form.cleaned_data['cost_of_service']
+            cost_of_parts = form.cleaned_data['cost_of_parts'] or 0
+            cost_of_service = form.cleaned_data['cost_of_service'] or 0
             comments = form.cleaned_data['comments']
 
             entry = Entry(user=user, car=car, date=date, mileage=mileage, service_type=service_type,
@@ -205,3 +218,9 @@ def add_entry(request, car_id):
         "car": car,
     }
     return render(request, template, context)
+
+def delete_entry(request, entry_id):
+    entry = Entry.objects.get(id=entry_id)
+    car = entry.car
+    entry.delete()
+    return HttpResponseRedirect("/cars/%s/" % car.id)
