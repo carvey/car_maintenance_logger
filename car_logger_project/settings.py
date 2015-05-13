@@ -75,7 +75,7 @@ DATABASES = {
         'NAME': 'car_logger',
         'USER': 'charles',
         'PASSWORD': 'shorefish',
-        'HOST': 'savoysterhouse.cnkdqqk3dlt2.us-west-2.rds.amazonaws.com',
+        'HOST': 'eagletrack.cnkdqqk3dlt2.us-west-2.rds.amazonaws.com',
         'PORT': '3306',
     }
 }
